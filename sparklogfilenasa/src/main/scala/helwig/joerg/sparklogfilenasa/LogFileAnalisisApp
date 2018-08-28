@@ -30,7 +30,7 @@ object Runner {
   def run(conf: SparkConf, inputFile: String): Unit = {
     val sc = new SparkContext(conf)
     val rdd = sc.textFile(inputFile)
-    val counts = WordCount.withStopWordsFiltered(rdd)
+    val counts = LogFileAnalisis.process (rdd)
     counts.saveAsTextFile(outputFile)
   }
 }
