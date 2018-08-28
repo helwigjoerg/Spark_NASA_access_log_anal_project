@@ -7,7 +7,7 @@ import org.apache.spark.{SparkConf, SparkContext}
   * sbt "run inputFile.txt outputFile.txt"
   *  (+ select CountingLocalApp when prompted)
   */
-object LogFileAnalisisApp extends App{
+object LogFileAnalisisLocalAppApp extends App{
   val (inputFile) = (args(0))
   val conf = new SparkConf()
     .setMaster("local")
