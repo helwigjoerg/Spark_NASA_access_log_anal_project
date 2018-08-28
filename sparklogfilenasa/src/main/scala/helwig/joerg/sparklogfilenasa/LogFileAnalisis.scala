@@ -3,6 +3,10 @@ package helwig.joerg.SparkLogFileNASA
 
 import org.apache.spark.sql._
 import org.apache.spark.rdd._
+import org.apache.spark._
+import org.apache.spark.SparkContext
+import org.apache.spark.rdd.RDD
+import org.apache.spark.SparkContext._
 
 
 object LogFileAnalisis {
@@ -11,7 +15,7 @@ object LogFileAnalisis {
 
 val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" (\d{3}) (\S+)""".r
 
-  def process(logFile : RDD[String]) {
+  def process(logFile:RDD[String]) {
   
   //val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
   val accessLog = logFile.map(parseLogLine)
