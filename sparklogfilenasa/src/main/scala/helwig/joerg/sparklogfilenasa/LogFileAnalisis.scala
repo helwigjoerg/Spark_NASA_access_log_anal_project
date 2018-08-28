@@ -7,6 +7,7 @@ import org.apache.spark._
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext._
+import spark.implicits._ 
 
 
 object LogFileAnalisis {
@@ -17,6 +18,7 @@ val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" 
 
   def process(logFile:RDD[String]) {
   
+  val spark = SparkSession.builder().getOrCreate() 	  
   //val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
   val accessLog = logFile.map(parseLogLine)
   val accessDf = accessLog.toDF()
