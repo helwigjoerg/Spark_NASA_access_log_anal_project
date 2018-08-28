@@ -23,10 +23,10 @@ object LogFileAnalisisApp extends App{
   val (inputFile) = (args(0))
 
   // spark-submit command should supply all necessary config elements
-  Runner.run(new SparkConf(), inputFile)
+  RunnerLogFile.run(new SparkConf(), inputFile)
 }
 
-object Runner {
+object RunnerLogFile {
   def run(conf: SparkConf, inputFile: String): Unit = {
     val sc = new SparkContext(conf)
     val rdd = sc.textFile(inputFile)
