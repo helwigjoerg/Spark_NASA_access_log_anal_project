@@ -19,7 +19,7 @@ object LogFileAnalisisApp extends App{
 /**
   * Use this when submitting the app to a cluster with spark-submit
   * */
-object LogFileAnalisisAppextends App{
+object LogFileAnalisisApp extends App{
   val (inputFile) = (args(0))
 
   // spark-submit command should supply all necessary config elements
