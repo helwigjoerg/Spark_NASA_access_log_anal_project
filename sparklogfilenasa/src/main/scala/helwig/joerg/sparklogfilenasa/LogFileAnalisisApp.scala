@@ -2,6 +2,8 @@ package helwig.joerg.SparkLogFileNASA
 
 import org.apache.spark.{SparkConf, SparkContext}
 import sqlContext.implicits._
+import org.apache.spark.sql.SparkSession
+import session.implicits._
 
 /**
   * Use this to test the app locally, from sbt:
@@ -12,7 +14,10 @@ object LogFileAnalisisLocalAppApp extends App{
   val (inputFile) = (args(0))
   val conf = new SparkConf()
     .setMaster("local")
-    .setAppName("my awesome app")
+    .setAppName("log file analysis")
+
+    val sc = new SparkContext(conf)
+    val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
 
   Runner.run(conf, inputFile, outputFile)
 }
@@ -29,8 +34,9 @@ object LogFileAnalisisApp extends App{
 
 object RunnerLogFile {
   def run(conf: SparkConf, inputFile: String): Unit = {
-    val sc = new SparkContext(conf)
-    val sqlContext= new org.apache.spark.sql.SQLContext(sc)
+  val sc = new SparkContext(conf)
+
+    val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
     val rdd = sc.textFile(inputFile)
     val counts = LogFileAnalisis.process (rdd)
     counts.saveAsTextFile(outputFile)
