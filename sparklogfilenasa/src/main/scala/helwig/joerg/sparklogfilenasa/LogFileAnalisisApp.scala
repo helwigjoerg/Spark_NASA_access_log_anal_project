@@ -49,6 +49,8 @@ object RunnerLogFile {
 val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" (\d{3}) (\S+)""".r
 
   def process(logFile:RDD[String]) {
+	   import session.implicits._
+	  
   
    
   //val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
@@ -81,42 +83,43 @@ def parseLogLine(log: String) :
 		case _ => LogRecord("Empty", "", "",  -1 )}}
 
 def prepareData (input: DataFrame): DataFrame = {
- import spark.implicits._
+ import session.implicits._
  input.select($"*").filter($"host" =!= "Empty").withColumn("Date",unix_timestamp(accessDf.col("timeStamp"), "dd/MMM/yyyy:HH:mm:ss").cast("timestamp")).withColumn("unix_ts" , unix_timestamp($"Date") ).withColumn("year", year(col("Date"))).withColumn("month"month(col("Date"))).withColumn("day", dayofmonth(col("Date"))).withColumn("hour", hour(col("Date"))).withColumn("weekday",from_unixtime(unix_timestamp($"Date", "MM/dd/yyyy"), "EEEEE"))
 }
 
 def topLogRecord(input: DataFrame): DataFrame = {
-	 import spark.implicits._
+	 import session.implicits._
 	input.select($"url").filter(upper($"url").like("%HTML%")).groupBy($"url").agg(count("*").alias("cnt")).orderBy(desc("cnt")).limit(10)
     
 }
 
  def highTrafficWeefDay (input: DataFrame): DataFrame = 
 	{
-		 import spark.implicits._
+        import session.implicits._
 	 input.select($"weekday").groupBy($"weekday").agg(count("*").alias("count_weekday")).orderBy(desc("count_weekday")).limit(5)
 	 
  }
 
  def lowTrafficWeefDay (input: DataFrame): DataFrame = {
+	  import session.implicits._
 	 input.select($"weekday").groupBy($"weekday").where($"weekday" not null).agg(count("*").alias("count_weekday")).orderBy(asc("count_weekday")).limit(5)
 	 
  }
 
 def highTrafficHour (input: DataFrame): DataFrame = {
-	 import spark.implicits._
+	  import session.implicits._
 	 input.select($"hour").groupBy($"hour").agg(count("*").alias("count_hour")).orderBy(desc("count_hour")).limit(5)
 	 
  }
 
 def lowTrafficHour (input: DataFrame): DataFrame = {
-	 import spark.implicits._
+	 import session.implicits._
 	 input.select($"hour").groupBy($"hour").agg(count("*").alias("count_hour")).orderBy(asc("count_hour")).limit(5)
 	 
  }
 
 def countByHTTP (input: DataFrame): DataFrame = {
-	 import spark.implicits._
+	  import session.implicits._
 	 input.select($"httpCode").groupBy($"httpCode").agg(count("*").alias("count_httpCode"))
 	 
  }
