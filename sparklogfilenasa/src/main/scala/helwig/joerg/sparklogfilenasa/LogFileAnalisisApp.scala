@@ -5,6 +5,7 @@ import sqlContext.implicits._
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SQLContext, SQLImplicits}
+import org.apache.spark.sql.functions._
 
 /**
   * Use this to test the app locally, from sbt:
@@ -80,15 +81,19 @@ def parseLogLine(log: String) :
 		case _ => LogRecord("Empty", "", "",  -1 )}}
 
 def prepareData (input: DataFrame): DataFrame = {
+ import spark.implicits._
  input.select($"*").filter($"host" =!= "Empty").withColumn("Date",unix_timestamp(accessDf.col("timeStamp"), "dd/MMM/yyyy:HH:mm:ss").cast("timestamp")).withColumn("unix_ts" , unix_timestamp($"Date") ).withColumn("year", year(col("Date"))).withColumn("month"month(col("Date"))).withColumn("day", dayofmonth(col("Date"))).withColumn("hour", hour(col("Date"))).withColumn("weekday",from_unixtime(unix_timestamp($"Date", "MM/dd/yyyy"), "EEEEE"))
 }
 
 def topLogRecord(input: DataFrame): DataFrame = {
+	 import spark.implicits._
 	input.select($"url").filter(upper($"url").like("%HTML%")).groupBy($"url").agg(count("*").alias("cnt")).orderBy(desc("cnt")).limit(10)
     
 }
 
- def highTrafficWeefDay (input: DataFrame): DataFrame = {
+ def highTrafficWeefDay (input: DataFrame): DataFrame = 
+	{
+		 import spark.implicits._
 	 input.select($"weekday").groupBy($"weekday").agg(count("*").alias("count_weekday")).orderBy(desc("count_weekday")).limit(5)
 	 
  }
@@ -99,16 +104,19 @@ def topLogRecord(input: DataFrame): DataFrame = {
  }
 
 def highTrafficHour (input: DataFrame): DataFrame = {
+	 import spark.implicits._
 	 input.select($"hour").groupBy($"hour").agg(count("*").alias("count_hour")).orderBy(desc("count_hour")).limit(5)
 	 
  }
 
 def lowTrafficHour (input: DataFrame): DataFrame = {
+	 import spark.implicits._
 	 input.select($"hour").groupBy($"hour").agg(count("*").alias("count_hour")).orderBy(asc("count_hour")).limit(5)
 	 
  }
 
 def countByHTTP (input: DataFrame): DataFrame = {
+	 import spark.implicits._
 	 input.select($"httpCode").groupBy($"httpCode").agg(count("*").alias("count_httpCode"))
 	 
  }
