@@ -3,8 +3,8 @@ package helwig.joerg.SparkLogFileNASA
 import org.apache.spark.{SparkConf, SparkContext}
 import sqlContext.implicits._
 import org.apache.spark.sql.SparkSession
-import session.implicits._
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, SQLContext, SQLImplicits}
 
 /**
   * Use this to test the app locally, from sbt:
