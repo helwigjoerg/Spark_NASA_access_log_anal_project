@@ -13,36 +13,20 @@ import org.apache.spark.sql.functions._
   *  (+ select CountingLocalApp when prompted)
   */
 object LogFileAnalisisLocalAppApp extends App{
-  val (inputFile) = (args(0))
+  
+	
+   val (inputFile) = (args(0))
   val conf = new SparkConf()
     .setMaster("local")
     .setAppName("log file analysis")
 
     val sc = new SparkContext(conf)
     val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
+   // val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")	
+    val rdd = sc.textFile(inputFile)	
+   process(rdd)	
 
-  Runner.run(conf, inputFile, outputFile)
-}
 
-/**
-  * Use this when submitting the app to a cluster with spark-submit
-  * */
-object LogFileAnalisisApp extends App{
-  val (inputFile) = (args(0))
-
-  // spark-submit command should supply all necessary config elements
-  RunnerLogFile.run(new SparkConf(), inputFile)
-}
-
-object RunnerLogFile {
-  def run(conf: SparkConf, inputFile: String): Unit = {
-  val sc = new SparkContext(conf)
-
-    val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
-    val rdd = sc.textFile(inputFile)
-    val counts = LogFileAnalisis.process (rdd)
-
-  }
  
  case class LogRecord( host: String, timeStamp: String, url:String,httpCode:Int)
 
@@ -123,4 +107,6 @@ def countByHTTP (input: DataFrame): DataFrame = {
 	 input.select($"httpCode").groupBy($"httpCode").agg(count("*").alias("count_httpCode"))
 	 
  }
+	
+	
 }
