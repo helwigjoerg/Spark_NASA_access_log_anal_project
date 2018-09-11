@@ -86,7 +86,7 @@ def topLogRecord(input: DataFrame): DataFrame = {
 
  def lowTrafficWeefDay (input: DataFrame): DataFrame = {
 	  import session.implicits._
-	 input.filter($"weekday".isNotNULL).select($"weekday").groupBy($"weekday").agg(count("*").alias("count_weekday")).orderBy(asc("count_weekday")).limit(5)
+	 input.filter($"weekday" =!= "").select($"weekday").groupBy($"weekday").agg(count("*").alias("count_weekday")).orderBy(asc("count_weekday")).limit(5)
 	 
  }
 
