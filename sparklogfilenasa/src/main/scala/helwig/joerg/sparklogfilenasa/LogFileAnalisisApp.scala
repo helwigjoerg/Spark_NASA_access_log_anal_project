@@ -22,8 +22,8 @@ object LogFileAnalisisLocalAppApp extends App{
 
     val sc = new SparkContext(conf)
     val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
-   // val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")	
-    val rdd = sc.textFile(inputFile)	
+    val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")	
+    val rdd = sc.textFile(logFile)	
    process(rdd)	
 
 
@@ -37,7 +37,7 @@ val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" 
 	  
   
    
-  val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
+  //val logFileInput = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
   val accessLog = logFile.map(logFile)
   val accessDf = accessLog.toDF()
   accessDf.printSchema
