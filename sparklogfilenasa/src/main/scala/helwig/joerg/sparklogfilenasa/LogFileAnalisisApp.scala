@@ -37,8 +37,8 @@ val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" 
 	  
   
    
-  //val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
-  val accessLog = logFile.map(parseLogLine)
+  val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
+  val accessLog = logFile.map(logFile)
   val accessDf = accessLog.toDF()
   accessDf.printSchema
   val inputData=prepareData(accessDf) 
