@@ -68,7 +68,7 @@ def parseLogLine(log: String) :
 
 def prepareData (input: DataFrame): DataFrame = {
  import session.implicits._
- input.select($"*").filter($"host" =!= "Empty").withColumn("Date",unix_timestamp(input.col("timeStamp"), "dd/MMM/yyyy:HH:mm:ss").cast("timestamp")).withColumn("unix_ts" , unix_timestamp($"Date") ).withColumn("year", year(col("Date"))).withColumn("month"month(col("Date"))).withColumn("day", dayofmonth(col("Date"))).withColumn("hour", hour(col("Date"))).withColumn("weekday",from_unixtime(unix_timestamp($"Date", "MM/dd/yyyy"), "EEEEE"))
+ input.select($"*").filter($"host" =!= "Empty").withColumn("Date",unix_timestamp(input.col("timeStamp"), "dd/MMM/yyyy:HH:mm:ss").cast("timestamp")).withColumn("unix_ts" , unix_timestamp($"Date") ).withColumn("year", year(col("Date"))).withColumn("month",month(col("Date"))).withColumn("day", dayofmonth(col("Date"))).withColumn("hour", hour(col("Date"))).withColumn("weekday",from_unixtime(unix_timestamp($"Date", "MM/dd/yyyy"), "EEEEE"))
 }
 
 def topLogRecord(input: DataFrame): DataFrame = {
@@ -86,7 +86,7 @@ def topLogRecord(input: DataFrame): DataFrame = {
 
  def lowTrafficWeefDay (input: DataFrame): DataFrame = {
 	  import session.implicits._
-	 input.select($"weekday").groupBy($"weekday").where($"weekday" not null).agg(count("*").alias("count_weekday")).orderBy(asc("count_weekday")).limit(5)
+	 input.filter($"weekday".isNotNULL).select($"weekday").groupBy($"weekday").agg(count("*").alias("count_weekday")).orderBy(asc("count_weekday")).limit(5)
 	 
  }
 
