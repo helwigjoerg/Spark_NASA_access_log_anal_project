@@ -15,7 +15,16 @@ import org.apache.spark.rdd.RDD
 object LogFileAnalisisLocalApp extends App{
   
 	
-   val (inputFile) = (args(0))
+ val session=_ 
+	
+  def main(args: Array[String]) {
+        
+        if (args.length != 1) {
+            println("Expected:1 , Provided: " + args.length)
+            return;
+        }
+	  
+  val (inputFile) = (args(0))
   val conf = new SparkConf()
     .setMaster("local")
     .setAppName("log file analysis")
@@ -23,10 +32,14 @@ object LogFileAnalisisLocalApp extends App{
     val sc = new SparkContext(conf)
    sc.setLogLevel("INFO")
 	
-    val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
+    session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
     //val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")	
     val acessLogFile = sc.textFile(inputFile)	
-   process(acessLogFile)	
+   process(acessLogFile)		  
+
+    
+    }	
+	
 
 
  
