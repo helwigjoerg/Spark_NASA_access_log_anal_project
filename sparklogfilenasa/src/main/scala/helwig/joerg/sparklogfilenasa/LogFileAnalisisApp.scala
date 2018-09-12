@@ -49,7 +49,7 @@ val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" 
 
   def process(logFile:RDD[String] ,  session : SparkSession) {
 	 
-	  
+	  import session.implicits._  
   
    
   //val logFileInput = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
@@ -99,7 +99,7 @@ def topLogRecord(input: DataFrame, session : SparkSession): DataFrame = {
 	 
  }
 
- def lowTrafficWeefDay (input: DataFrame, session : SparkSessione): DataFrame = {
+ def lowTrafficWeefDay (input: DataFrame, session : SparkSession): DataFrame = {
 	  import session.implicits._
 	 input.filter($"weekday" =!= "").select($"weekday").groupBy($"weekday").agg(count("*").alias("count_weekday")).orderBy(asc("count_weekday")).limit(5)
 	 
