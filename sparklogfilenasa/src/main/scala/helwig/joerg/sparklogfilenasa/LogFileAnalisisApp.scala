@@ -15,7 +15,7 @@ import org.apache.spark.rdd.RDD
 object LogFileAnalisisLocalApp extends App{
   
 	
- val session= _ 
+ val session = null
 	
   def main(args: Array[String]) {
         
