@@ -12,7 +12,7 @@ import org.apache.spark.rdd.RDD
   * sbt "run inputFile.txt outputFile.txt"
   *  (+ select CountingLocalApp when prompted)
   */
-object LogFileAnalisisLocalApp extends App{
+object LogFileAnalisisLocalApp {
   
 	
 
