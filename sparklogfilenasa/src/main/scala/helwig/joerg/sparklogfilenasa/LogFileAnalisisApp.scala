@@ -23,8 +23,8 @@ object LogFileAnalisisLocalApp extends App{
     val sc = new SparkContext(conf)
     val session = SparkSession.builder().appName("StackOverFlowSurvey").master("local[1]").getOrCreate()
     val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")	
-    val rdd = sc.textFile(logFile)	
-   process(rdd)	
+   // val rdd = sc.textFile(logFile)	
+   process(logFile)	
 
 
  
