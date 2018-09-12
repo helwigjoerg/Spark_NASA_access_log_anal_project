@@ -15,6 +15,9 @@ lazy val root = (project in file(".")).
 
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     javaOptions ++= Seq("-Xms512M", "-Xmx2048M", "-XX:MaxPermSize=2048M", "-XX:+CMSClassUnloadingEnabled"),
+    javaOptions in run ++= Seq(
+  "-Dlog4j.debug=true",
+  "-Dlog4j.configuration=log4j.properties"),
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
     parallelExecution in Test := false,
     fork := true,
