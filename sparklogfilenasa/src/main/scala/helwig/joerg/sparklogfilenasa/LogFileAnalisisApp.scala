@@ -12,7 +12,7 @@ import org.apache.spark.rdd.RDD
   * sbt "run inputFile.txt outputFile.txt"
   *  (+ select CountingLocalApp when prompted)
   */
-object LogFileAnalisisLocalAppApp extends App{
+object LogFileAnalisisLocalApp extends App{
   
 	
    val (inputFile) = (args(0))
@@ -38,7 +38,7 @@ val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" 
   
    
   //val logFileInput = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
-  val accessLog = logFile.map(logFile)
+  val accessLog = logFile.map(parseLogLine)
   val accessDf = accessLog.toDF()
   accessDf.printSchema
   val inputData=prepareData(accessDf) 
