@@ -57,18 +57,28 @@ val PATTERN = """^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)(.*)" 
   val accessDf = accessLog.toDF()
   accessDf.printSchema
   val inputData=prepareData(accessDf, session) 
-  println("topLogRecord")
+
   topLogRecord(inputData,session).show
-  println("highTrafficWeefDay")
+  println("topLogRecord")	  
+	  
+ 
   highTrafficWeefDay(inputData, session).show
-  println("lowTrafficWeefDay")
+  println("highTrafficWeefDay")
+
   lowTrafficWeefDay(inputData, session).show
-  println("highTrafficHour")
+  println("lowTrafficWeefDay")	  
+	  
+
   highTrafficHour(inputData, session).show
-  println("lowTrafficHour")
+  println("highTrafficHour")	  
+	  
+  
   lowTrafficHour(inputData, session).show
-  println("countByHTTP")
+  println("lowTrafficHour")	  
+	  
+ 
   countByHTTP(inputData, session).show
+  println("countByHTTP")	  
   
   
   }
